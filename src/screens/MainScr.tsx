@@ -1,6 +1,8 @@
 
-import React, {useState} from 'react'
-import { View, Text, Alert, StyleSheet, TextInput, TouchableOpacity} from 'react-native'
+import React, {useState} from 'react';
+import Navbar from '../components/Navbar';
+import { View, Text, Alert, StyleSheet, TextInput, TouchableOpacity, } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function App() {
     const[isPressed, setIsPressed] = useState(false);
@@ -26,7 +28,6 @@ export default function App() {
                     })
                 }
             );
-
             const data = await response.json();
             console.log("STK Response: ", data);
             if(response.ok) {
@@ -47,9 +48,11 @@ export default function App() {
 
         }
     }
-  return ( 
+  return (  
+    <SafeAreaView  style={styles.container} edges={["top"]}>
+        <Navbar/>
+        
 <View style={styles.port}>
-
     <Text style={styles.title}>TuLipe</Text>
     <Text style={styles.subTitle}>Request Payment</Text>
    <View style={styles.subPort}>
@@ -87,25 +90,28 @@ export default function App() {
      </TouchableOpacity>
     </View>
 </View>
+    </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({
+    container: {
+flex: 1, backgroundColor: "#000"
+    },
 port: {
     flex: 1, justifyContent: "center", alignItems: "center", backgroundColor:  '#111',
 },
 subPort: {
     width: "90%", padding: 20, alignItems: "center", borderWidth: 2, borderColor: "#fff",
     borderRadius: 12
-
 },
 title: {
-    fontSize: 50, color: '#0A9DF1', fontWeight: "bold"
+    fontSize: 40, color: '#0A9DF1', fontWeight: "500", marginBottom: 20
 },
 subTitle: {
-    fontSize: 30, color: '#fff', marginBottom: 20
+    fontSize: 30, color: '#fff', marginBottom: 40
 },
 formPort: {
-    width: "85%",
+    width: "85%", marginTop: 20,
     justifyContent: "center",  alignItems: "center", display: "flex",  flexDirection: "column",
     gap: 20,
 
@@ -116,7 +122,7 @@ marginBottom: 2, fontWeight: "500"
 },
 
 input: {
-    borderWidth: 2,
+     borderBottomWidth: 2,
     borderColor: '#0A9DF1' ,
     width: "100%", height: 60,
     textAlign: "center",
@@ -124,20 +130,22 @@ input: {
     fontSize: 28,
     marginBottom: 20,
     color: "#fff",
-    borderRadius: 12
+
 }, 
 
 button: {
     width:  "60%",
     height: 50, backgroundColor:  "#0A9DF1", borderRadius: 8, 
     justifyContent: "center", alignItems: "center",
-    marginTop: 30
+    marginTop: 20
 }, 
 buttonText: {
     color: "#fff", fontSize: 25, fontWeight: "600"
 },
 buttonPressed: {
 backgroundColor: "white",
+},
 
-}
+
+
 })
