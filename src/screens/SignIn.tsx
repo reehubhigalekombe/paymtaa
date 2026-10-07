@@ -8,18 +8,27 @@ export default function SignIn() {
     const[businessName, setBusinessName] = useState("");
     const[phoneNumber, setPhoneNumber]= useState("");
     const[password, setPassword] = useState("");
+    const[paymentMethod, setPaymentMethod] = useState<"till" | "paybill">("till");
     const[shortcode, setShortcode] = useState("");
-
+    const[accountNumber, setAccountNumber] = useState("");
+                                                                                                                                                   
     const createAccount = async () => {
         if(!fullName || !businessName || !phoneNumber || !password || !shortcode) {
 Alert.alert("Missing field", "Please fill all fields")
 return
         }
 
+        if(paymentMethod === "paybill" && !accountNumber) {
+    Alert.alert("Missing field", "Kindly enter your account number");
+    return
+};
+
         try {
             const response = await axios.post("https://tulipe.onrender.com/auth/register",
                 {
-fullName, businessName, phoneNumber, password, shortcode
+fullName, businessName, phoneNumber, password, shortcode,paymentMethod,
+accountNumber: paymentMethod === "paybill"
+? accountNumber : ""
                 }
             );
             console.log("Registartion response: ", response.data)
@@ -91,14 +100,81 @@ Alert.alert("Accont Created", "Your account with Tulipe has been created succesf
             </View>
 
             <View style={styles.inputField}>
-                  <Text style={styles.lables}>MPESA TILL:</Text>
+                  <Text style={styles.lables}>PAYMENT METHOD</Text>
+
+                  <View style={styles.methodRow}>
+<TouchableOpacity 
+style={[
+styles.methodBut, 
+paymentMethod === "till" && styles.selectedMethod
+]} onPress={() => {
+    setPaymentMethod("till");
+    setAccountNumber("")
+}}>
+<Text    
+    style={[
+        styles.methodText, 
+paymentMethod === "till" && styles.methodText2
+    ]}>TILL</Text>
+</TouchableOpacity>
+
+
+<TouchableOpacity 
+style={[
+styles.methodBut, 
+paymentMethod === "paybill" && styles.selectedMethod
+]} onPress={() => {
+    setPaymentMethod("paybill");
+}}>
+<Text    
+    style={[
+        styles.methodText, 
+paymentMethod === "paybill" && styles.methodText2
+    ]}>PAYBILL</Text>
+</TouchableOpacity>
+                  </View>
+            </View>
+
+            {paymentMethod === "till" &&  (
+                <View style={styles.inputField}>
+                    <Text style={styles.lables}>TILL NUMBER</Text>
+                    
        <TextInput style={styles.input} 
        value={shortcode}
        keyboardType="numeric"
        onChangeText={setShortcode}
        placeholder="56xxx7"
        placeholderTextColor="#747272"/>
-            </View>
+                    
+                     </View>
+            )}
+
+            
+            {paymentMethod === "paybill" &&  (
+                <>
+                <View style={styles.inputField}>
+                    <Text style={styles.lables}>PAYBILL</Text>
+                    
+       <TextInput style={styles.input} 
+       value={shortcode}
+       keyboardType="numeric"
+       onChangeText={setShortcode}
+       placeholder="123456"
+       placeholderTextColor="#747272"/>
+                     </View>
+
+                     <View style={styles.inputField}>
+                    <Text style={styles.lables}>ACCOUNT NUMBER</Text>
+                    
+       <TextInput style={styles.input} 
+       value={accountNumber}
+       keyboardType="numeric"
+       onChangeText={setAccountNumber}
+       placeholder="123456"
+       placeholderTextColor="#747272"/>
+                     </View>
+                </>
+            )}
 </View>
 <View>
     <TouchableOpacity style={styles.butt}
@@ -114,12 +190,12 @@ Alert.alert("Accont Created", "Your account with Tulipe has been created succesf
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1, paddingTop: 50, paddingHorizontal: 25,
+        flex: 1, paddingTop: 30, paddingHorizontal: 25,
         gap: 20, backgroundColor: "#121212",
         width: "100%"
     },
     field: {
-marginBottom: 30
+marginBottom: 20
     },
     title: {
 fontSize: 30, color: "#fff", fontWeight: 500,  textAlign: "center"
@@ -157,4 +233,23 @@ input: {
  butText: {
     color: "#000", fontSize: 25, fontWeight: "600", letterSpacing: 1
  },
+ methodRow: {
+flexDirection: "row", gap: 12, marginTop: 5
+ },
+ methodBut: {
+flex: 1, height: 48, borderWidth: 1, borderColor: "#fff", borderRadius: 8, justifyContent: "center",
+alignItems: "center"
+ },
+ selectedMethod: {
+backgroundColor: "#fff",
+borderColor: "#0A9DF1",
+ },
+ methodText: {
+    color: "#fff", fontSize: 20, fontWeight: "600"
+ },
+  methodText2: {
+    color: "#000", 
+ }
+
+
 })
