@@ -35,12 +35,12 @@ export default function SignIn() {
 }
 const styles = StyleSheet.create({
 mainPort: {
-    flex: 1, backgroundColor: "#0A9DF1", paddingHorizontal: 30,
+    flex: 1, backgroundColor: "#111", paddingHorizontal: 30,
     justifyContent: "center", alignItems: "center"
 
 },
 img: {
-    height: 100, width: 100, 
+    height: 100, width: 100, borderWidth: 1, borderColor: "#fff", borderRadius: 50
 },
 topRow: {
     alignItems: "center", marginBottom: 40,
@@ -54,14 +54,15 @@ gap: 30
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 8,
-    backgroundColor: "#000",
+    backgroundColor: "#fff",
     height: 55, elevation: 5, shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 4,
     shadowOffset: {
     width: 0, height: 3
     }
  },
  buttonText: {
-    color: "#fff", fontSize: 30, fontWeight: "400", letterSpacing: 1
+    color: "#000", fontSize: 28, fontWeight: "500", 
+    
  },
  title: {
     color: "#fff",
@@ -70,7 +71,7 @@ gap: 30
     marginTop: 10
  },
  subtitle: {
-    color: "#111",
+    color: "#fff",
     fontSize: 30,
     fontWeight: "400",
     marginTop: 10
@@ -79,7 +80,7 @@ gap: 30
     position: "absolute",
     bottom: 50,
     color: "#fff",
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "400",
 
  }

@@ -17,7 +17,7 @@ return
         }
 
         try {
-            const response = await axios.post("http://10.0.2.2:3000/auth/register",
+            const response = await axios.post("https://tulipe.onrender.com/auth/register",
                 {
 fullName, businessName, phoneNumber, password, shortcode
                 }
@@ -27,7 +27,7 @@ Alert.alert("Accont Created", "Your account with Tulipe has been created succesf
     [
         {
             text: "Continue",
-            onPress: () => navigation.navigate("LogIn" )
+            onPress: () => navigation.navigate("LogIn" as never)
         }
     ]
 )

@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import Navbar from '../components/Navbar';
 import { View, Text, Alert, StyleSheet, TextInput, TouchableOpacity, } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Keychain from "react-native-keychain";
 
 export default function App() {
     const[isPressed, setIsPressed] = useState(false);
@@ -16,11 +17,20 @@ export default function App() {
             return;
         }
         try {
+            const credentials =  await Keychain.getGenericPassword();
+
+            if(!credentials) {
+                Alert.alert("Sorry session expired", "Kindly login again")
+                return
+            }
+            const token = credentials.password;
+
             const response = await  fetch(
-                "http://10.0.2.2:3000/mpesa/stkpush", {
+                "https://tulipe.onrender.com/mpesa/stkpush", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
+                        "Authorization":  `Bearer ${token}`,
                     },
                     body: JSON.stringify({
                         phone: phone,

@@ -2,34 +2,41 @@ import React, {useState} from "react";
 import { useNavigation } from "@react-navigation/native";
 import  Ionicons from "@react-native-vector-icons/ionicons";
 import axios from "axios";
+import * as Keychain from "react-native-keychain";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert} from "react-native";
 export default function SignIn() {
     const navigation = useNavigation();
      const[password, setPassword] = useState("");
       const [phoneNumber, setPhoneNumber] = useState("");
 
-      const credentails = async () =>{
+      const credentials = async () =>{
+        if(!phoneNumber || !password) {
+            Alert.alert("Missing credentials", "Please enter your phone number or passowrd")
+            return
+        }
         try {
-            const response = await axios.post("http://10.0.2.2:3000/auth/login",
+            const response = await axios.post("https://tulipe.onrender.com/auth/login",
                 {
                     phoneNumber, password
-
                 }
             );
             console.log("Login Response", response.data)
-            Alert.alert("Accont Created", "Your account with Tulipe has been created succesfuly. ",
+            const token = response.data.token;
+            await Keychain.setGenericPassword("auth", token);
+
+            Alert.alert("LoginScuccess", "Welcome to TuLipe",
     [
         {
             text: "Continue",
-            onPress: () => navigation.navigate("MainScr")
-        }
+            onPress: () => navigation.navigate("MainScr" as never)
+        },
     ]
-)
+);
 
         }catch(error: any) {
            console.error(" Login error: ", error.response?.data || error.message);
             Alert.alert(
-                "Registartion Failed", error.response?.data?.message || "Unable to connect to TuLipe Servers"
+                "Login Failed", error.response?.data?.message || "Unable to connect to TuLipe Servers"
             )
         }
       }
@@ -48,7 +55,7 @@ export default function SignIn() {
     <View style={styles.inputField}>
                   <Text style={styles.lables}>PHONE NUMBER:</Text>
        <TextInput style={styles.input} 
-       placeholder="Higal Ekombe"
+       placeholder="0742106109"
        keyboardType="numeric"
        value={phoneNumber}
        onChangeText={setPhoneNumber}
@@ -68,7 +75,7 @@ export default function SignIn() {
 </View>
 <View>
     <TouchableOpacity style={styles.butt}
-    onPress={credentails}
+    onPress={credentials}
     >
         <Text style={styles.butText}>LOGIN</Text>
     </TouchableOpacity>
@@ -127,7 +134,7 @@ input: {
     marginTop: 10
  },
  butText: {
-    color: "000", fontSize: 25, fontWeight: "600", 
+    color: "#000", fontSize: 25, fontWeight: "600", 
  },
  logText: {
     fontSize: 20, color: "#fff", fontWeight: 500,  textAlign: "center"
