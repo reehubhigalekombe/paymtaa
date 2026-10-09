@@ -72,7 +72,7 @@ onPress={() => {
 
 <TouchableOpacity
 onPress={() => {
-    setMenuVisible(false); navigation.navigate("MainScr" as never)
+    setMenuVisible(false); navigation.navigate("Transaction" as never)
 }}
 >
     <View style={styles.sets}>

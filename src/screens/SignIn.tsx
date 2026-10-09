@@ -1,7 +1,7 @@
 import React, {useState} from  "react";
 import { useNavigation } from "@react-navigation/native";
 import  Ionicons from "@react-native-vector-icons/ionicons"
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert} from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, ScrollView} from "react-native";
 import axios from "axios";
 export default function SignIn() {
     const [fullName, setFullNme] = useState("");
@@ -51,7 +51,8 @@ Alert.alert("Accont Created", "Your account with Tulipe has been created succesf
     const navigation = useNavigation()
     return(
         <View style={styles.container}>
-           <View style={{marginBottom: 40}}>
+         <ScrollView>
+              <View style={{marginBottom: 10, marginTop: 20}}>
              <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Ionicons name="arrow-back-outline" size={26} color="#fff"/>
             </TouchableOpacity>
@@ -183,6 +184,7 @@ paymentMethod === "paybill" && styles.methodText2
         <Text style={styles.butText}>CREATE</Text>
     </TouchableOpacity>
 </View>
+         </ScrollView>
         
         </View>
 
@@ -190,7 +192,7 @@ paymentMethod === "paybill" && styles.methodText2
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1, paddingTop: 30, paddingHorizontal: 25,
+        flex: 1, paddingTop: 40, paddingHorizontal: 25,
         gap: 20, backgroundColor: "#121212",
         width: "100%"
     },
@@ -228,7 +230,8 @@ input: {
     shadowOffset: {
     width: 0, height: 3,
     },
-    marginTop: 10
+    marginTop: 20,
+    marginBottom: 20
  },
  butText: {
     color: "#000", fontSize: 25, fontWeight: "600", letterSpacing: 1
@@ -238,7 +241,7 @@ flexDirection: "row", gap: 12, marginTop: 5
  },
  methodBut: {
 flex: 1, height: 48, borderWidth: 1, borderColor: "#fff", borderRadius: 8, justifyContent: "center",
-alignItems: "center"
+alignItems: "center", marginTop: 15
  },
  selectedMethod: {
 backgroundColor: "#fff",
